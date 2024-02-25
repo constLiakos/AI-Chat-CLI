@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Chat-CLI** is a terminal AI assistant that uses OpenAI Compatible API for natural language processing. It allows users to interact with the AI assistant through a command-line interface. Complex linux commands could be executed just by describing the desired result. 
+**Chat-CLI** is a terminal AI assistant that uses OpenAI Compatible API. It allows users to chat and run complex linux commands by describing the desired result. 
 
 - 💬 **Chat with AI** - Chat with LLM models throught terminal
 - 🧠 **Personas** - Create Desired Persona based on the given system prompt.
