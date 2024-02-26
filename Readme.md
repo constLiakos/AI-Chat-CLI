@@ -1,8 +1,8 @@
-# Chat-CLI: Terminal AI Assistant & Command Executor
+# AI-Chat-CLI: Terminal AI Assistant & Command Executor
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Chat-CLI** is a terminal AI assistant that uses OpenAI Compatible API. It allows users to chat and run complex linux commands by describing the desired result. 
+**AI-Chat-CLI** is a terminal AI assistant that uses OpenAI Compatible API. It allows users to chat and run complex linux commands by describing the desired result. 
 
 - 💬 **Chat with AI** - Chat with LLM models throught terminal
 - 🧠 **Personas** - Create Desired Persona based on the given system prompt.
@@ -22,20 +22,20 @@
 5. Exit terminal and open a new one
 
 ## Usage
-1. Run chat-cli `ai <User Prompt (Optional)>`
+1. Run `ai <User Prompt (Optional)>`
 2. Enter your input when prompted by the AI assistant
 3. To exit the program, type `quit` or `exit` when prompted for input
 
 ### Functions
 #### AI Assistant Chat 
 ```bash
-<User Prompt (Optional)>
+ai <User Prompt>
 ```
 
 #### Execute Command - `cmd`
 Describe a command you want to execute
 ```bash
-cmd <User prompt>
+ai cmd <User prompt>
 ``` 
 
 ## Contributing
