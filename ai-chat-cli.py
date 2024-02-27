@@ -51,6 +51,25 @@ messages =  [
                 { "content": SYSTEM_PROMPT ,"role": "system"},
                 { "content": user_input ,"role": "user"},
             ]
+def execute_command(response, command):
+    if re.search( "#\s*ASK_USER"  , response.response_uptil_now.strip()):
+        print("Execute Command: " + command + "\n")
+        do_proceed = input("Proceed with command?  y/n: ")
+        # TODO fix if no character
+        if do_proceed.strip().lower()[0] != 'y' :
+            return -1
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    out, err = process.communicate()
+    if err != "":
+        print("Execution Error:\n" + err + "\n")
+        exec_results = { "content": f"Execution result: error: {err}" ,"role": "system"}   
+    elif out != "":
+        print("Execution Results:\n" + out + "\n")
+        exec_results = { "content": f"Execution result: {out}" ,"role": "system"}   
+    else:
+        exec_results = { "content": f"Execution result: null output" ,"role": "system"}   
+    messages.append(exec_results)
+    return 0
 
 while True:
     response = completion(
@@ -72,21 +91,11 @@ while True:
     if re.search( "#\s*`.*?`" , response.response_uptil_now.strip().lower()):
         command = re.search( "#\s*`.*`"  , response.response_uptil_now.strip()).group()
         command = re.search( "`.*`"  , response.response_uptil_now.strip()).group()[1:-1]
-        if re.search( "#\s*ASK_USER"  , response.response_uptil_now.strip()):
-            print("Execute Command: " + command + "\n")
-            do_proceed = input("Proceed with command?  y/n: ")
-            # TODO fix if no character
-            if do_proceed.strip().lower()[0] != 'y' :
-                continue
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        out, err = process.communicate()
-        if err != "":
-            print("Execution Error:\n" + err + "\n")
-        if out != "":
-            print("Execution Results:\n" + out + "\n")
-        exec_results = { "content": f"Execution result: {out}" ,"role": "system"}   
-        messages.append(exec_results)
-
+        if execute_command(response, command) != 0:
+            continue
+    # If it's bash quotes
+    if re.search( "```(.*\n*)*```" , response.response_uptil_now.strip().lower()):
+        pass
 
     if re.search( "#\s*exit" , response.response_uptil_now.strip().lower()):
         print()
