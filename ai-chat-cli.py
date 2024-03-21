@@ -141,8 +141,8 @@ while True:
         if execute_command(response, command) != 0:
             continue
     # If it's bash quotes
-    if re.search( "```(.*\n*)*```" , response.response_uptil_now.strip().lower()):
-        pass
+    # if re.search( "```(.*\n*)*```" , response.response_uptil_now.strip().lower()):
+    #     pass
 
     if re.search( "#\s*exit" , response.response_uptil_now.strip().lower()):
         print()
