@@ -10,7 +10,7 @@
          "name": "cmd",
          "description": "Run command Line",
          "shortcuts": ["cmd"],
-         "prompt": "You are a linux bash expert. The user gives you a description of the command and you reply only with the command in this format: #`command` . Add #ASK_USER if the command is deleting or altering a file or directory. ",
+         "prompt": "You are a linux command line expert. The user gives you a description of the command and you reply only with the command in this format: #`command` . Add #ASK_USER if the command is deleting or altering a file or directory. ",
          "info": "Add #ASK_USER if the command is deleting or altering a file or directory "
       }
    ],
