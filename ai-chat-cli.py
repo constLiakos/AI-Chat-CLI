@@ -9,18 +9,26 @@ import json
 
 load_dotenv()
 
-LLM_MODEL_NAME = os.getenv('LLM_MODEL')
-USER_NAME = os.getenv('USER_NAME')
-AI_NAME = os.getenv('AI_NAME')
-PRINTED_REPLY_HEAD = os.getenv('REPLY_HEAD')
-CONFIG_FILENAME = os.getenv('CONFIG_FILENAME')
-LLM_API_BASE = os.getenv('API_BASE')
-LLM_API_KEY= os.getenv('API_KEY')
-LLM_TEMPERATURE = float(os.getenv('LLM_TEMPERATURE'))
-LLM_MAX_TOKENS = int(os.getenv('LLM_MAX_TOKENS'))
+def get_conf_env_var(var_name, var_type, default_val):
+    if f'{var_name}' in os.environ:
+        if isinstance( os.getenv(f'{var_name}') , var_type ):
+            return os.getenv(f'{var_name}')
+        else:
+            return var_type( f"{os.getenv(f'{var_name}')}" )
+    else:
+        return var_type(f'{default_val}')
+
+LLM_MODEL_NAME = get_conf_env_var('LLM_MODEL', str, 'gpt-3.5-turbo')
+USER_NAME = get_conf_env_var('USER_NAME', str, 'User')
+AI_NAME = get_conf_env_var('AI_NAME', str, 'AI')
+PRINTED_REPLY_HEAD = get_conf_env_var('PRINTED_REPLY_HEAD', str, f"{AI_NAME}: ")
+CONFIG_FILENAME = get_conf_env_var('CONFIG_FILENAME', str, 'config.json')
+LLM_API_BASE = get_conf_env_var('OPENAI_API_BASE', str, 'https://api.openai.com/v1')
+LLM_TEMPERATURE = get_conf_env_var('LLM_TEMPERATURE', float, 0.7)
+LLM_MAX_TOKENS = get_conf_env_var('LLM_MAX_TOKENS', int, 8192)
+LLM_API_KEY = os.getenv('OPENAI_API_TOKEN')
 
 os.environ["OPENAI_API_KEY"] = LLM_API_KEY
-os.environ["OPENAI_API_BASE"] = LLM_API_BASE
 
 KNOWLEDGE =  [
                f"Today's date: {date.today()}.",
