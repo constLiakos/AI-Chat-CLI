@@ -107,7 +107,7 @@ messages =  [
             ]
 
 def execute_command(response, command):
-    if re.search( "#\s*ASK_USER"  , response.response_uptil_now.strip()):
+    if re.search(r"#\s*ASK_USER", response.response_uptil_now.strip()):
         print("Execute Command: " + command + "\n")
         do_proceed = input("Proceed with command?  y/n: ")
         # TODO fix if no character
@@ -135,24 +135,24 @@ while True:
     )
     print(f"{AI_NAME}: ", sep=" ", end='')
     for part in response:
-        if re.search( "#EXIT" , response.response_uptil_now.strip().capitalize()):
-            part = re.sub("#EXIT", "", part)
+        if re.search(r"#EXIT", response.response_uptil_now.strip(), re.IGNORECASE):
+            part = re.sub(r"#EXIT", "", part, flags=re.IGNORECASE)
         print(part.choices[0].delta.content or "", sep=" ", end='')
     print()   
     llm_response= { "content": response.response_uptil_now ,"role": "system"}   
     messages.append(llm_response)        
 
     # If it's Command
-    if re.search( "#\s*`.*?`" , response.response_uptil_now.strip().lower()):
-        command = re.search( "#\s*`.*`"  , response.response_uptil_now.strip()).group()
-        command = re.search( "`.*`"  , response.response_uptil_now.strip()).group()[1:-1]
+    if re.search(r"#\s*`.*?`", response.response_uptil_now.strip()):
+        command = re.search(r"#\s*`.*?`", response.response_uptil_now.strip()).group()
+        command = re.search(r"`.*?`", response.response_uptil_now.strip()).group()[1:-1]
         if execute_command(response, command) != 0:
             continue
     # If it's bash quotes
     # if re.search( "```(.*\n*)*```" , response.response_uptil_now.strip().lower()):
     #     pass
 
-    if re.search( "#\s*exit" , response.response_uptil_now.strip().lower()):
+    if re.search(r"#\s*exit", response.response_uptil_now.strip(), re.IGNORECASE):
         print()
         exit(0)
 
